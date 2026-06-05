@@ -126,3 +126,5 @@ BEGIN CATCH
 	PRINT'-------------------------'
 END CATCH
 END
+
+EXEC bronze.load_bronze

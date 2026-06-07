@@ -1,0 +1,167 @@
+version: 2
+
+models:
+  - name: crm_cust_info
+    description: "Cleaned customer information from CRM source."
+    columns:
+      - name: cst_id
+        description: "Customer ID."
+        tests:
+          - not_null
+          - unique
+
+      - name: cst_key
+        description: "Customer business key."
+        tests:
+          - not_null
+
+      - name: cst_marital_status
+        description: "Standardized marital status."
+        tests:
+          - accepted_values:
+              values: ['Single', 'Married', 'n/a']
+
+      - name: cst_gndr
+        description: "Standardized customer gender."
+        tests:
+          - accepted_values:
+              values: ['Female', 'Male', 'n/a']
+
+  - name: crm_prd_info
+    description: "Cleaned product information from CRM source."
+    columns:
+      - name: prd_id
+        description: "Product ID."
+        tests:
+          - not_null
+          - unique
+
+      - name: prd_key
+        description: "Product business key."
+        tests:
+          - not_null
+
+      - name: cat_id
+        description: "Category ID extracted from product key."
+        tests:
+          - not_null
+
+      - name: prd_nm
+        description: "Product name."
+        tests:
+          - not_null
+
+      - name: prd_cost
+        description: "Product cost."
+        tests:
+          - not_null
+
+      - name: prd_line
+        description: "Standardized product line."
+        tests:
+          - accepted_values:
+              values: ['Mountain', 'Road', 'Other Sales', 'Touring', 'n/a']
+
+      - name: prd_start_dt
+        description: "Product start date."
+        tests:
+          - not_null
+
+  - name: crm_sales_details
+    description: "Cleaned sales transaction details from CRM source."
+    columns:
+      - name: sls_ord_num
+        description: "Sales order number."
+        tests:
+          - not_null
+
+      - name: sls_prd_key
+        description: "Product key used in sales transaction."
+        tests:
+          - not_null
+
+      - name: sls_cust_id
+        description: "Customer ID used in sales transaction."
+        tests:
+          - not_null
+
+      - name: sls_order_dt
+        description: "Order date."
+        tests:
+          - not_null
+
+      - name: sls_ship_dt
+        description: "Shipping date."
+        tests:
+          - not_null
+
+      - name: sls_due_dt
+        description: "Due date."
+        tests:
+          - not_null
+
+      - name: sls_sales
+        description: "Sales amount."
+        tests:
+          - not_null
+
+      - name: sls_quantity
+        description: "Sales quantity."
+        tests:
+          - not_null
+
+      - name: sls_price
+        description: "Sales price."
+        tests:
+          - not_null
+
+  - name: erp_cust_az12
+    description: "Cleaned customer demographic data from ERP source."
+    columns:
+      - name: cid
+        description: "Customer ID."
+        tests:
+          - not_null
+
+      - name: gen
+        description: "Standardized gender from ERP."
+        tests:
+          - accepted_values:
+              values: ['Female', 'Male', 'n/a']
+
+  - name: erp_loc_a101
+    description: "Cleaned customer location data from ERP source."
+    columns:
+      - name: cid
+        description: "Customer ID."
+        tests:
+          - not_null
+
+      - name: cntry
+        description: "Standardized country."
+        tests:
+          - not_null
+
+  - name: erp_px_cat_g1v2
+    description: "Product category reference data from ERP source."
+    columns:
+      - name: id
+        description: "Category ID."
+        tests:
+          - not_null
+          - unique
+
+      - name: cat
+        description: "Product category."
+        tests:
+          - not_null
+
+      - name: subcat
+        description: "Product subcategory."
+        tests:
+          - not_null
+
+      - name: maintenance
+        description: "Maintenance flag or category."
+        tests:
+          - not_null

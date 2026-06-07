@@ -1,0 +1,140 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Customer dimension table containing integrated CRM and ERP customer data."
+    columns:
+      - name: customer_key
+        description: "Surrogate key for customer dimension."
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_id
+        description: "Original customer ID from CRM."
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_number
+        description: "Customer business number."
+        tests:
+          - not_null
+
+      - name: first_name
+        description: "Customer first name."
+        tests:
+          - not_null
+
+      - name: last_name
+        description: "Customer last name."
+        tests:
+          - not_null
+
+      - name: gender
+        description: "Final customer gender, prioritized from CRM and fallback to ERP."
+        tests:
+          - accepted_values:
+              values: ['Female', 'Male', 'n/a']
+
+      - name: marital_status
+        description: "Customer marital status."
+        tests:
+          - accepted_values:
+              values: ['Single', 'Married', 'n/a']
+
+  - name: dim_products
+    description: "Product dimension table containing current product and category information."
+    columns:
+      - name: product_key
+        description: "Surrogate key for product dimension."
+        tests:
+          - not_null
+          - unique
+
+      - name: product_id
+        description: "Original product ID from CRM."
+        tests:
+          - not_null
+          - unique
+
+      - name: product_number
+        description: "Product business number."
+        tests:
+          - not_null
+          - unique
+
+      - name: product_name
+        description: "Product name."
+        tests:
+          - not_null
+
+      - name: category_id
+        description: "Product category ID."
+        tests:
+          - not_null
+
+      - name: category
+        description: "Product category."
+        tests:
+          - not_null
+
+      - name: subcategory
+        description: "Product subcategory."
+        tests:
+          - not_null
+
+      - name: cost
+        description: "Product cost."
+        tests:
+          - not_null
+
+      - name: product_line
+        description: "Product line."
+        tests:
+          - accepted_values:
+              values: ['Mountain', 'Road', 'Other Sales', 'Touring', 'n/a']
+
+  - name: fact_sales
+    description: "Sales fact table containing sales transactions linked to customer and product dimensions."
+    columns:
+      - name: order_number
+        description: "Sales order number."
+        tests:
+          - not_null
+
+      - name: product_key
+        description: "Foreign key to dim_products."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_key
+
+      - name: customer_key
+        description: "Foreign key to dim_customers."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_key
+
+      - name: order_date
+        description: "Sales order date."
+        tests:
+          - not_null
+
+      - name: sales_amount
+        description: "Sales amount."
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Sales quantity."
+        tests:
+          - not_null
+
+      - name: price
+        description: "Sales price."
+        tests:
+          - not_null
